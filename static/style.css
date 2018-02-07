@@ -1,0 +1,61 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	background: #f0f0f0;
+}
+header, main {
+	width: 320px;
+}
+header {
+	margin: 1em auto;
+	text-align: right;
+}
+header #count {
+	text-align: left;
+	margin-bottom: 0.5em;
+	color: #666;
+}
+header textarea {
+	width: 100%;
+	height: 5em;
+	min-height: 1.5em;
+	max-height: 10em;
+	resize: vertical;
+	box-sizing: border-box;
+}
+header button {
+	margin-top: 0.5em;
+	border: 1px solid #aaa;
+	background: #f5f5f5;
+	padding: 0.25em 1em;
+}
+main {
+	margin: 0 auto 0.5em auto;
+	display: flex;
+	flex-direction: column-reverse;
+}
+header textarea, main > div {
+	font-family: inherit;
+	font-size: inherit;
+	padding: 0.5em;
+	border: 1px solid #aaa;
+	background: #fff;
+}
+main > div {
+	margin-bottom: 0.5em;
+}
+main > div.new {
+	animation: fadein 1s;
+}
+main > div > time {
+	display: block;
+	margin-top: 0.75em;
+	opacity: 0.33;
+	font-size: 75%;
+	text-align: right;
+}
+@keyframes fadein {
+	from {opacity: 0} to {opacity: 1}
+}
