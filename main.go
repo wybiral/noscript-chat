@@ -59,15 +59,15 @@ func main() {
 
 type Topic struct {
 	chansMutex   *sync.RWMutex
-	chans map[chan []byte]struct{}
+	chans        map[chan []byte]struct{}
 	historyMutex *sync.RWMutex
 	history      []*Update
 }
 
 func NewTopic() *Topic {
 	return &Topic{
-		chansMutex: &sync.RWMutex{},
-		chans: make(map[chan []byte]struct{}),
+		chansMutex:   &sync.RWMutex{},
+		chans:        make(map[chan []byte]struct{}),
 		historyMutex: &sync.RWMutex{},
 		history:      make([]*Update, 0),
 	}
@@ -132,14 +132,14 @@ type Update struct {
 }
 
 type App struct {
-	topicsMutex   *sync.RWMutex
-	topics map[string] *Topic
+	topicsMutex *sync.RWMutex
+	topics      map[string]*Topic
 }
 
 func NewApp() *App {
 	return &App{
-		topicsMutex:   &sync.RWMutex{},
-		topics:        make(map[string] *Topic),
+		topicsMutex: &sync.RWMutex{},
+		topics:      make(map[string]*Topic),
 	}
 }
 
@@ -220,13 +220,13 @@ func (app *App) PostHandler(w http.ResponseWriter, r *http.Request) {
 	defer app.topicsMutex.RUnlock()
 	t, ok := app.topics[topic]
 	if !ok {
-		http.Redirect(w, r, "/" + topic, 302)
+		http.Redirect(w, r, "/"+topic, 302)
 		return
 	}
 	r.ParseForm()
 	msg := r.PostForm.Get("msg")
 	if len(msg) > maxMsgLen {
-		http.Redirect(w, r, "/" + topic, 302)
+		http.Redirect(w, r, "/"+topic, 302)
 		return
 	}
 	msg = template.HTMLEscapeString(msg)
@@ -235,5 +235,5 @@ func (app *App) PostHandler(w http.ResponseWriter, r *http.Request) {
 		timestamp := time.Now().UTC().Format("2006-01-02 15:04:05")
 		t.send(&Update{timestamp: timestamp, message: msg})
 	}
-	http.Redirect(w, r, "/" + topic, 302)
+	http.Redirect(w, r, "/"+topic, 302)
 }
